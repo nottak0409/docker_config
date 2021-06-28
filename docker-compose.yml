@@ -1,6 +1,35 @@
 version: "3.9"
 services:
+  #php apache
   web:
+    # port
+    ports:
+      - "8000:80"
     build: ./infra/php
+    # コンテナ名
+    container_name: parashif-web
     volumes:
       - ./backend:/work
+  #mysql
+  db:
+    # Docker Hub
+    image: mysql:8.0
+    container_name: parashif-db
+    # 環境変数
+    environment:
+      MYSQL_DATABASE: parashif-db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: parashif_user
+      MYSQL_PASSWORD: parashif_pass
+      TZ: 'Asia/Tokyo'
+    # コマンド
+    command: >
+      --default-authentication-plugin=mysql_native_password &&
+      mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - db-store:/var/lib/mysql
+      - ./infra/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - 3306:3306
+volumes:
+  db-store:
