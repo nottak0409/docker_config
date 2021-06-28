@@ -9,7 +9,7 @@ services:
     # コンテナ名
     container_name: parashif-web
     volumes:
-      - ./backend:/work
+      - ./backend:/var/www/html
   #mysql
   db:
     # Docker Hub
