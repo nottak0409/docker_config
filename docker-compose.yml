@@ -30,6 +30,15 @@ services:
       - db-store:/var/lib/mysql
       - ./infra/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
-      - 3306:3306
+      - 13306:3306
+  # phpMyAdmin
+  pma:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=parashif_user
+      - PMA_PASSWORD=parashif_pass
+    ports:
+      - 8080:80
 volumes:
   db-store:
