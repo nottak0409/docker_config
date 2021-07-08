@@ -1,4 +1,4 @@
 FROM mysql:8.0
 WORKDIR /var/lib/mysql
-RUN mkdir /var/lib/mysql
+RUN mkdir -p /var/lib/mysql
 RUN chown mysql:mysql /var/lib/mysql
