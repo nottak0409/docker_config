@@ -13,7 +13,12 @@ services:
   #mysql
   db:
     # Docker Hub
-    image: mysql:8.0
+    build:
+      context: "./infra/mysql"
+      dockerfile: DockerfileDB
+    volumes:
+      - db-store:/var/lib/mysql
+      - ./infra/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     container_name: parashif-db
     # 環境変数
     environment:
@@ -24,11 +29,7 @@ services:
       TZ: 'Asia/Tokyo'
     # コマンド
     command: >
-      --default-authentication-plugin=mysql_native_password &&
-      mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - db-store:/var/lib/mysql
-      - ./infra/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      --default-authentication-plugin=mysql_native_password && mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - 13306:3306
   # phpMyAdmin
